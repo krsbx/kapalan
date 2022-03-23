@@ -1,5 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { HARBOUR, PEOPLE, PLACEHOLDER, SERVICES } from './constant';
 
 export type IStackScreen = {
   Loading: {
@@ -51,3 +52,18 @@ export type IBookingScreenProps<T extends keyof IBookingScreen> = StackScreenPro
   IBookingScreen,
   T
 >;
+
+export type HarborType = keyof typeof HARBOUR;
+
+export type HarborNameType = typeof HARBOUR[keyof typeof HARBOUR]['name'];
+
+export type ServiceType = keyof typeof SERVICES;
+
+export type PlaceholderType = typeof PLACEHOLDER[keyof typeof PLACEHOLDER];
+
+export type PeopleType = typeof PEOPLE[keyof typeof PEOPLE];
+
+export interface IAction<T> {
+  type: string;
+  data: T;
+}
