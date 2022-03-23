@@ -48,93 +48,57 @@ const SERVICES = {
     id: 'REGULER',
     name: 'Reguler',
     prices: {
-      children: 20,
-      adult: 30,
+      CHILDREN: 20,
+      ADULT: 30,
     },
   },
   EXPRESS: {
     id: 'EXPRESS',
     name: 'Express',
     prices: {
-      children: 35,
-      adult: 45,
+      CHILDREN: 35,
+      ADULT: 45,
     },
   },
   VIP: {
     id: 'VIP',
     name: 'VIP',
     prices: {
-      children: 60,
-      adult: 80,
+      CHILDREN: 60,
+      ADULT: 80,
     },
   },
 };
 
 const CALC_TABLE = {
   REGULER: {
-    SHORT: {
-      children: {
-        multiplier: 1.5,
-        bokingFee: 5,
-      },
-      adult: {
-        multiplier: 1.5,
-        bokingFee: 10,
-      },
+    CHILDREN: {
+      multiplier: 1.5,
+      bookingFee: 5,
     },
-    LONG: {
-      children: {
-        multiplier: 1.35,
-        bokingFee: 5,
-      },
-      adult: {
-        multiplier: 1.35,
-        bokingFee: 10,
-      },
+    ADULT: {
+      multiplier: 1.5,
+      bookingFee: 10,
     },
   },
   EXPRESS: {
-    SHORT: {
-      children: {
-        multiplier: 1.5,
-        bokingFee: 15,
-      },
-      adult: {
-        multiplier: 1.5,
-        bokingFee: 20,
-      },
+    CHILDREN: {
+      multiplier: 1.5,
+      bookingFee: 15,
     },
-    LONG: {
-      children: {
-        multiplier: 1.25,
-        bokingFee: 15,
-      },
-      adult: {
-        multiplier: 1.25,
-        bokingFee: 20,
-      },
+    ADULT: {
+      multiplier: 1.5,
+      bookingFee: 20,
     },
   },
   VIP: {
-    SHORT: {
-      children: {
-        multiplier: 1.5,
-        bokingFee: 25,
-      },
-      adult: {
-        multiplier: 1.5,
-        bokingFee: 30,
-      },
+    CHILDREN: {
+      multiplier: 1.5,
+      bookingFee: 25,
     },
-    LONG: {
-      children: {
-        multiplier: 1.25,
-        bokingFee: 20,
-      },
-      adult: {
-        multiplier: 1.25,
-        bokingFee: 25,
-      },
+    ADULT: {
+      multiplier: 1.5,
+      bookingFee: 30,
     },
   },
 };
