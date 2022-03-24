@@ -1,9 +1,9 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screen/HomeScreen';
-import { IBookingScreen } from '../utils/interface';
 import ConfirmationScreen from '../screen/ConfirmationScreen';
 import PaymentScreen from '../screen/PaymentScreen';
+import { IBookingScreen } from '../utils/interface';
 
 const HomeStack: React.FC = () => {
   const Stack = createNativeStackNavigator<IBookingScreen>();

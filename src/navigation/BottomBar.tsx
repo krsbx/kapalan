@@ -1,12 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { IBottomScreen } from '../utils/interface';
-import HomeScreen from '../screen/HomeScreen';
-import BookingScreen from '../screen/BookingScreen';
-import HomeStack from './HomeStack';
 import { COLOR_PALETTE } from '../utils/constant';
+import HomeScreen from '../screen/HomeScreen';
+import HomeStack from './HomeStack';
+import BookingStack from './BookingStack';
+import CancelationsScreen from '../screen/CancelationsScreen';
 
 const BottomBar: React.FC = () => {
   const Tab = createBottomTabNavigator<IBottomScreen>();
@@ -35,7 +36,7 @@ const BottomBar: React.FC = () => {
       />
       <Tab.Screen
         name="Booking"
-        component={BookingScreen}
+        component={BookingStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <FontAwesome name="book" size={22} color={colorGenerator(focused)} />
@@ -47,10 +48,10 @@ const BottomBar: React.FC = () => {
       />
       <Tab.Screen
         name="Cancelation"
-        component={HomeScreen}
+        component={CancelationsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <FontAwesome5 name="money-bill" size={22} color={colorGenerator(focused)} />
+            <MaterialIcons name="block" size={22} color={colorGenerator(focused)} />
           ),
           tabBarLabelStyle: {
             fontSize: 13,
@@ -62,7 +63,7 @@ const BottomBar: React.FC = () => {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <FontAwesome name="eye" size={22} color={colorGenerator(focused)} />
+            <MaterialIcons name="more-horiz" size={22} color={colorGenerator(focused)} />
           ),
           tabBarLabelStyle: {
             fontSize: 13,

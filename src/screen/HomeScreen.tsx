@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { useState } from 'react';
-import { TouchableOpacity, SafeAreaView, View, StyleSheet, Text } from 'react-native';
+import { TouchableOpacity, SafeAreaView, View, StyleSheet, Text, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import DatePicker from 'react-native-date-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -17,23 +17,27 @@ import { RootState } from '../store';
 import { getBooking } from '../store/selectors/booking';
 import { updateBooking as _updateBooking } from '../store/actions/booking';
 import AppTitle from '../components/AppTitle';
+import InnerContainer from '../components/InnerContainer';
+import { bookingValidationSchema } from '../utils/formSchema';
 
 const HomeScreen: React.FC<Props> = ({ navigation, booking, updateBooking }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [error, setError] = useState<Record<string, string>>({});
 
-  const pushToConfirmation = () => {
-    if (!_.isNil(booking.departure) && _.isEmpty(HARBOUR[booking.departure])) return;
+  const validate = () => {
+    const newError = bookingValidationSchema(booking);
+    setError({});
 
-    if (!_.isNil(booking.arrival) && _.isEmpty(HARBOUR[booking.arrival])) return;
+    if (!_.isEmpty(newError)) setError(newError);
+  };
 
-    if (!_.isNil(booking.service) && _.isEmpty(SERVICES[booking.service])) return;
+  const onSubmit = () => {
+    const newError = bookingValidationSchema(booking);
 
-    if (_.isString(booking.date) && _.isEmpty(booking.date.trim())) return;
+    validate();
 
-    if (!_.isDate(booking.date)) return;
-
-    if (_.isString(booking.total) && !_.isNumber(_.toNumber(_.first(booking.total.split(' ')))))
-      return;
+    if (!_.isEmpty(newError)) return;
 
     navigation.push('Confirmation', {});
   };
@@ -41,169 +45,206 @@ const HomeScreen: React.FC<Props> = ({ navigation, booking, updateBooking }) => 
   return (
     <SafeAreaView style={safeAreaViewStyle.default}>
       <DefaultContainer>
-        <View style={styles.container}>
+        <InnerContainer>
           <AppTitle />
-          <View
-            style={{
-              marginVertical: 10,
-            }}
-          >
-            <Text>Pelabuhan Awal</Text>
-            <View style={styles.pickerContainer}>
-              <MaterialComIcons name="sail-boat" size={35} />
-              <Picker
-                selectedValue={_.isNil(booking.departure) ? PLACEHOLDER.DEPART : booking.departure}
-                onValueChange={(value) =>
-                  updateBooking({
-                    // @ts-ignore
-                    departure: value,
-                  })
-                }
-                style={{ width: '90%' }}
-              >
-                {_.isNil(booking.departure) && (
-                  <Picker.Item label={PLACEHOLDER.DEPART} value={PLACEHOLDER.DEPART} />
-                )}
-                {_.map(HARBOUR, ({ id, name }) => (
-                  <Picker.Item label={name} value={id} key={id} />
-                ))}
-              </Picker>
-            </View>
-          </View>
-          <View
-            style={{
-              marginVertical: 10,
-            }}
-          >
-            <Text>Pelabuhan Tujuan</Text>
-            <View style={styles.pickerContainer}>
-              <MaterialComIcons name="sail-boat" size={35} />
-              <Picker
-                selectedValue={_.isNil(booking.arrival) ? PLACEHOLDER.ARRIVAL : booking.arrival}
-                onValueChange={(value) =>
-                  updateBooking({
-                    // @ts-ignore
-                    arrival: value,
-                  })
-                }
-                style={{ width: '90%' }}
-              >
-                {_.isNil(booking.arrival) && (
-                  <Picker.Item label={PLACEHOLDER.ARRIVAL} value={PLACEHOLDER.ARRIVAL} />
-                )}
-                {_.map(HARBOUR, ({ id, name }) => (
-                  <Picker.Item label={name} value={id} key={id} />
-                ))}
-              </Picker>
-            </View>
-          </View>
-          <View
-            style={{
-              marginVertical: 10,
-            }}
-          >
-            <Text>Kelas Layanan</Text>
-            <View style={styles.pickerContainer}>
-              <MaterialComIcons name="seat-passenger" size={35} />
-              <Picker
-                selectedValue={_.isNil(booking.service) ? PLACEHOLDER.SERVICES : booking.service}
-                onValueChange={(value) =>
-                  updateBooking({
-                    // @ts-ignore
-                    service: value,
-                  })
-                }
-                style={{ width: '90%' }}
-              >
-                {_.isNil(booking.service) && (
-                  <Picker.Item label={PLACEHOLDER.SERVICES} value={PLACEHOLDER.SERVICES} />
-                )}
-                {_.map(SERVICES, ({ id, name }) => (
-                  <Picker.Item label={name} value={id} key={id} />
-                ))}
-              </Picker>
-            </View>
-          </View>
-          <View
-            style={{
-              marginVertical: 10,
-            }}
-          >
-            <Text>Tanggal Masuk Pelabuhan</Text>
-            <View style={styles.pickerContainer}>
-              <MaterialIcons name="date-range" size={35} />
-              <TouchableOpacity
-                style={{
-                  alignItems: 'flex-start',
-                  width: '90%',
-                  height: 25,
-                  justifyContent: 'center',
-                  paddingHorizontal: 20,
-                }}
-                onPress={() => setIsOpen(true)}
-              >
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: 'rgba(0,0,0, 0.85)',
+          <ScrollView>
+            <View
+              style={{
+                marginVertical: 10,
+              }}
+            >
+              <Text>Pelabuhan Awal</Text>
+              <View style={styles.pickerContainer}>
+                <MaterialComIcons name="sail-boat" size={35} />
+                <Picker
+                  selectedValue={booking.departure}
+                  onValueChange={(value) =>
+                    updateBooking({
+                      departure: value,
+                    })
+                  }
+                  onFocus={() => {
+                    setTouched({ ...touched, departure: false });
                   }}
+                  onBlur={() => {
+                    setTouched({ ...touched, departure: true });
+                    validate();
+                  }}
+                  style={{ width: '90%' }}
                 >
-                  {!_.isDate(booking.date)
-                    ? PLACEHOLDER.DATE
-                    : moment(booking.date).format('DD/MM/YYYY')}
-                </Text>
-              </TouchableOpacity>
+                  {booking.departure === HARBOUR.DEPART.id && (
+                    <Picker.Item label={HARBOUR.DEPART.name} value={HARBOUR.DEPART.id} />
+                  )}
+                  {_.map(_.omit(HARBOUR, ['DEPART', 'ARRIVAL']), ({ id, name }) => (
+                    <Picker.Item label={name} value={id} key={id} />
+                  ))}
+                </Picker>
+              </View>
+              {error.departure && touched.departure && (
+                <Text style={styles.error}>{error.departure}</Text>
+              )}
             </View>
-          </View>
-          <View
-            style={{
-              marginVertical: 10,
-            }}
-          >
-            <View style={styles.pickerContainer}>
-              <Picker
-                selectedValue={booking.person}
-                onValueChange={(value) =>
-                  updateBooking({
-                    person: value,
-                  })
-                }
-                style={{ flex: 1 }}
-              >
-                {_.map(PEOPLE, (type, id) => (
-                  <Picker.Item label={type} value={type} key={id} />
-                ))}
-              </Picker>
-              <Picker
-                selectedValue={booking.total}
-                onValueChange={(value) =>
-                  updateBooking({
-                    total: value,
-                  })
-                }
-                style={{ flex: 1 }}
-              >
-                {_.map(Array(4), (value, id) => (
-                  <Picker.Item label={`${id + 1} Orang`} value={`${id + 1} Orang`} key={id} />
-                ))}
-              </Picker>
+            <View
+              style={{
+                marginVertical: 10,
+              }}
+            >
+              <Text>Pelabuhan Tujuan</Text>
+              <View style={styles.pickerContainer}>
+                <MaterialComIcons name="sail-boat" size={35} />
+                <Picker
+                  selectedValue={booking.arrival}
+                  onValueChange={(value) =>
+                    updateBooking({
+                      arrival: value,
+                    })
+                  }
+                  onFocus={() => {
+                    setTouched({ ...touched, arrival: false });
+                  }}
+                  onBlur={() => {
+                    setTouched({ ...touched, arrival: true });
+                    validate();
+                  }}
+                  style={{ width: '90%' }}
+                >
+                  {booking.arrival === HARBOUR.ARRIVAL.id && (
+                    <Picker.Item label={HARBOUR.ARRIVAL.name} value={HARBOUR.ARRIVAL.id} />
+                  )}
+                  {_.map(_.omit(HARBOUR, ['DEPART', 'ARRIVAL']), ({ id, name }) => (
+                    <Picker.Item label={name} value={id} key={id} />
+                  ))}
+                </Picker>
+              </View>
+              {error.arrival && touched.arrival && (
+                <Text style={styles.error}>{error.arrival}</Text>
+              )}
             </View>
-          </View>
-          <View>
-            <Button
-              icon={<FontAwesome5 name="ship" size={22} color={'white'} />}
-              title="Buat Tiket"
-              buttonStyle={{
-                width: '100%',
-                backgroundColor: COLOR_PALETTE.DEEP_BLUE['200'],
+            <View
+              style={{
+                marginVertical: 10,
               }}
-              titleStyle={{
-                marginHorizontal: 5,
+            >
+              <Text>Kelas Layanan</Text>
+              <View style={styles.pickerContainer}>
+                <MaterialComIcons name="seat-passenger" size={35} />
+                <Picker
+                  selectedValue={booking.service}
+                  onValueChange={(value) =>
+                    updateBooking({
+                      service: value,
+                    })
+                  }
+                  onFocus={() => {
+                    setTouched({ ...touched, service: false });
+                  }}
+                  onBlur={() => {
+                    setTouched({ ...touched, service: true });
+                    validate();
+                  }}
+                  style={{ width: '90%' }}
+                >
+                  {booking.service === SERVICES.SERVICES.id && (
+                    <Picker.Item label={SERVICES.SERVICES.name} value={SERVICES.SERVICES.id} />
+                  )}
+                  {_.map(_.omit(SERVICES, ['SERVICES']), ({ id, name }) => (
+                    <Picker.Item label={name} value={id} key={id} />
+                  ))}
+                </Picker>
+              </View>
+              {error.service && touched.service && (
+                <Text style={styles.error}>{error.service}</Text>
+              )}
+            </View>
+            <View
+              style={{
+                marginVertical: 10,
               }}
-              onPress={pushToConfirmation}
-            />
-          </View>
-        </View>
+            >
+              <Text>Tanggal Masuk Pelabuhan</Text>
+              <View style={styles.pickerContainer}>
+                <MaterialIcons name="date-range" size={35} />
+                <TouchableOpacity
+                  style={{
+                    alignItems: 'flex-start',
+                    width: '90%',
+                    height: 25,
+                    justifyContent: 'center',
+                    paddingHorizontal: 20,
+                  }}
+                  onFocus={() => {
+                    setTouched({ ...touched, date: false });
+                  }}
+                  onBlur={() => {
+                    setTouched({ ...touched, date: true });
+                    validate();
+                  }}
+                  onPress={() => setIsOpen(true)}
+                >
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: 'rgba(0,0,0, 0.85)',
+                    }}
+                  >
+                    {!_.isDate(booking.date)
+                      ? PLACEHOLDER.DATE
+                      : moment(booking.date).format('DD/MM/YYYY')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              {error.date && touched.date && <Text style={styles.error}>{error.date}</Text>}
+            </View>
+            <View
+              style={{
+                marginVertical: 10,
+              }}
+            >
+              <View style={styles.pickerContainer}>
+                <Picker
+                  selectedValue={booking.person}
+                  onValueChange={(value) =>
+                    updateBooking({
+                      person: value,
+                    })
+                  }
+                  style={{ flex: 1 }}
+                >
+                  {_.map(PEOPLE, (type, id) => (
+                    <Picker.Item label={type} value={type} key={id} />
+                  ))}
+                </Picker>
+                <Picker
+                  selectedValue={booking.total}
+                  onValueChange={(value) =>
+                    updateBooking({
+                      total: value,
+                    })
+                  }
+                  style={{ flex: 1 }}
+                >
+                  {_.map(Array(4), (value, id) => (
+                    <Picker.Item label={`${id + 1} Orang`} value={`${id + 1} Orang`} key={id} />
+                  ))}
+                </Picker>
+              </View>
+              {error.total && <Text style={styles.error}>{error.total}</Text>}
+            </View>
+            <View>
+              <Button
+                icon={<FontAwesome5 name="ship" size={22} color={'white'} />}
+                title="Buat Tiket"
+                buttonStyle={{
+                  backgroundColor: COLOR_PALETTE.DEEP_BLUE['200'],
+                }}
+                titleStyle={{
+                  marginHorizontal: 5,
+                }}
+                onPress={onSubmit}
+              />
+            </View>
+          </ScrollView>
+        </InnerContainer>
       </DefaultContainer>
       <DatePicker
         modal
@@ -214,7 +255,10 @@ const HomeScreen: React.FC<Props> = ({ navigation, booking, updateBooking }) => 
           });
           setIsOpen(false);
         }}
-        onCancel={() => setIsOpen(false)}
+        onCancel={() => {
+          setTouched({ ...touched, date: true });
+          validate();
+        }}
         date={_.isEmpty(booking.date) ? new Date() : moment(booking.date).toDate()}
         onDateChange={(newDate) =>
           updateBooking({
@@ -227,21 +271,16 @@ const HomeScreen: React.FC<Props> = ({ navigation, booking, updateBooking }) => 
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    margin: '5%',
-    padding: 20,
-    borderRadius: 25,
-  },
   pickerContainer: {
-    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginVertical: 10,
     paddingHorizontal: 10,
+  },
+  error: {
+    color: 'red',
+    fontWeight: '700',
   },
 });
 
