@@ -1,3 +1,7 @@
+// Muhammad Firdaus Sati
+// 119140150
+// RB
+
 module.exports = {
   bracketSpacing: true,
   trailingComma: 'es5',
