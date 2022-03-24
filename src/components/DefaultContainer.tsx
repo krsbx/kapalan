@@ -1,9 +1,14 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import { COLOR_PALETTE } from '../utils/constant';
 
 const DefaultContainer: React.FC = ({ children }) => {
-  return <View style={styles.defautl}>{children}</View>;
+  return (
+    <View style={styles.defautl}>
+      <StatusBar backgroundColor={COLOR_PALETTE.LIGHT_BLUE['200']} />
+      {children}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

@@ -1,4 +1,4 @@
-import { HARBOUR, PEOPLE, SERVICES } from '../../utils/constant';
+import { HARBOUR, SERVICES } from '../../utils/constant';
 import { IAction } from '../../utils/interface';
 import { IBaseBooking, IBooking } from '../../utils/reducerInterface';
 
@@ -6,7 +6,7 @@ const initialState: IBaseBooking = {
   date: '',
   arrival: HARBOUR.ARRIVAL.id,
   departure: HARBOUR.DEPART.id,
-  person: PEOPLE.ADULT,
+  person: 'ADULT',
   service: SERVICES.SERVICES.id,
   total: '1 Orang',
 };
