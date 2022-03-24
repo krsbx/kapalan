@@ -4,10 +4,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { IBottomScreen } from '../utils/interface';
 import { COLOR_PALETTE } from '../utils/constant';
-import HomeScreen from '../screen/HomeScreen';
 import HomeStack from './HomeStack';
 import BookingStack from './BookingStack';
 import CancelationsScreen from '../screen/CancelationsScreen';
+import OthersScreen from '../screen/OthersScreen';
 
 const BottomBar: React.FC = () => {
   const Tab = createBottomTabNavigator<IBottomScreen>();
@@ -60,7 +60,7 @@ const BottomBar: React.FC = () => {
       />
       <Tab.Screen
         name="Others"
-        component={HomeScreen}
+        component={OthersScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <MaterialIcons name="more-horiz" size={22} color={colorGenerator(focused)} />

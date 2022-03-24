@@ -142,4 +142,23 @@ const GENDER = {
 // TODO: Fill this later
 const SCHEDULE = {};
 
-export { COLOR_PALETTE, HARBOUR, SERVICES, CALC_TABLE, SCHEDULE, PLACEHOLDER, PEOPLE, GENDER };
+const AVATAR_URI =
+  'https://media-exp1.licdn.com/dms/image/C5603AQE4ptdWOzR12A/profile-displayphoto-shrink_800_800/0/1610812548641?e=1653523200&v=beta&t=O3X7g-ju1FOxXGX4AL3xuoy4V10H36hkZUaqArrECgU';
+
+const MEDIA = {
+  LINKEDIN: 'https://www.linkedin.com/in/muhammad-firdaus-sati-7a0b541b6/',
+  GITHUB: 'https://github.com/krsbx',
+};
+
+export {
+  COLOR_PALETTE,
+  HARBOUR,
+  SERVICES,
+  CALC_TABLE,
+  SCHEDULE,
+  PLACEHOLDER,
+  PEOPLE,
+  GENDER,
+  AVATAR_URI,
+  MEDIA,
+};

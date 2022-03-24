@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   detailContainer: {
     flex: 1,
-    marginVertical: 20,
+    marginVertical: 10,
     borderRadius: 20,
     padding: 20,
     backgroundColor: COLOR_PALETTE.DEEP_BLUE['100'],
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
   },
   flexRow: {
     flexDirection: 'row',
-    paddingVertical: 5,
   },
 });
 
