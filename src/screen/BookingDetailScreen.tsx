@@ -67,7 +67,7 @@ const BookingDetailScreen: React.FC<Props> = ({
               <Input
                 autoCompleteType={'off'}
                 placeholder="Umur"
-                value={_.get(booking, 'orderPerson.age', '')}
+                value={_.toString(_.get(booking, 'orderPerson.age', ''))}
                 keyboardType={'numeric'}
                 containerStyle={{
                   height: 50,

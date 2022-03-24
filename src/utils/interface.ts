@@ -76,7 +76,7 @@ export type ServiceType = keyof typeof SERVICES;
 
 export type PlaceholderType = typeof PLACEHOLDER[keyof typeof PLACEHOLDER];
 
-export type PeopleType = typeof PEOPLE[keyof typeof PEOPLE];
+export type PeopleType = keyof typeof PEOPLE;
 
 export type GenderType = keyof typeof GENDER;
 

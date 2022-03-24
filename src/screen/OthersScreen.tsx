@@ -23,7 +23,11 @@ const OthersScreen = () => {
             rounded
             size="xlarge"
           />
-          <Text style={{ marginVertical: 20, fontSize: 30 }}>Developed with love</Text>
+          <Text style={{ marginTop: 10, fontSize: 22, textAlign: 'center' }}>
+            Developed with TypeScript
+          </Text>
+          <Text style={{ marginVertical: 5, fontSize: 15, textAlign: 'center' }}>&</Text>
+          <Text style={{ marginBottom: 10, fontSize: 22, textAlign: 'center' }}>React Native</Text>
           <ScrollView
             style={{
               paddingHorizontal: 20,

@@ -42,6 +42,11 @@ const HomeScreen: React.FC<Props> = ({ navigation, booking, updateBooking }) => 
     navigation.push('Confirmation', {});
   };
 
+  const closeValidate = () => {
+    setIsOpen(false);
+    validate();
+  };
+
   return (
     <SafeAreaView style={safeAreaViewStyle.default}>
       <DefaultContainer>
@@ -211,7 +216,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, booking, updateBooking }) => 
                   style={{ flex: 1 }}
                 >
                   {_.map(PEOPLE, (type, id) => (
-                    <Picker.Item label={type} value={type} key={id} />
+                    <Picker.Item label={type} value={id} key={id} />
                   ))}
                 </Picker>
                 <Picker
@@ -253,11 +258,11 @@ const HomeScreen: React.FC<Props> = ({ navigation, booking, updateBooking }) => 
           updateBooking({
             date: newDate,
           });
-          setIsOpen(false);
+          closeValidate();
         }}
         onCancel={() => {
           setTouched({ ...touched, date: true });
-          validate();
+          closeValidate();
         }}
         date={_.isEmpty(booking.date) ? new Date() : moment(booking.date).toDate()}
         onDateChange={(newDate) =>

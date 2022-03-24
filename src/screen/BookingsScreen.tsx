@@ -27,7 +27,7 @@ const BookingsScreen: React.FC<Props> = ({ bookings, navigation }) => {
     <SafeAreaView style={safeAreaViewStyle.default}>
       <DefaultContainer>
         <InnerContainer>
-          <View style={{ width: '100%' }}>
+          <View style={{ width: '100%', height: '100%' }}>
             <View
               style={{
                 alignItems: 'center',

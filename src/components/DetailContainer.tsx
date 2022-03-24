@@ -16,13 +16,9 @@ const DetailContainer: React.FC<Props> = ({ booking, onPress }) => {
   const getTotalPrice = (): number => {
     const total = getTotal();
     const service = SERVICES[booking.service];
-    const personType = _.findKey(
-      PEOPLE,
-      (person) => person === booking.person
-    ) as keyof typeof service.prices;
 
-    const price: number = service.prices[personType];
-    const { bookingFee, multiplier } = CALC_TABLE[booking.service][personType];
+    const price: number = service.prices[booking.person];
+    const { bookingFee, multiplier } = CALC_TABLE[booking.service][booking.person];
 
     return (bookingFee + price) * multiplier * total;
   };
@@ -63,7 +59,7 @@ const DetailContainer: React.FC<Props> = ({ booking, onPress }) => {
         </View>
         <View style={{ flexDirection: 'row', paddingTop: 10 }}>
           <Text style={[styles.information, { flex: 1 }]}>
-            {booking.person} x {getTotal()}
+            {PEOPLE[booking.person]} x {getTotal()}
           </Text>
           <Text style={[styles.information, { flex: 1, textAlign: 'right' }]}>
             {getTotalPrice()}
