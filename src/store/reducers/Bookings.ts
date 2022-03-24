@@ -1,10 +1,9 @@
 import _ from 'lodash';
+import { SCHEDULE } from '../../utils/constant';
 import { IBooking, IBookings } from '../../utils/reducerInterface';
 import { IAction } from '../../utils/reducerInterface';
 
-const initialState: IBookings = {};
-
-const bookings = (state = initialState, action: IAction<IBooking, IBookings>) => {
+const bookings = (state = SCHEDULE, action: IAction<IBooking, IBookings>) => {
   switch (action.type) {
     case 'bookings.set':
       if (_.isNumber(action.payload)) return state;
