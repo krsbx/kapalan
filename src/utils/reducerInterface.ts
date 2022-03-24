@@ -1,12 +1,17 @@
-import { HarborType, PeopleType, ServiceType } from './interface';
+import { GenderType, HarborType, PeopleType, ServiceType } from './interface';
 
 export interface IBaseBooking {
-  departure?: HarborType;
-  arrival?: HarborType;
-  service?: ServiceType;
+  departure: HarborType;
+  arrival: HarborType;
+  service: ServiceType;
   person: PeopleType;
   total: number | string;
   date: string | Date;
+  orderPerson?: {
+    fullName: string;
+    gender: GenderType;
+    age: number;
+  };
 }
 
 export interface IBooking extends IBaseBooking {

@@ -8,8 +8,7 @@ const AppTitle: React.FC = () => {
 
 const styles = StyleSheet.create({
   title: {
-    padding: 15,
-    fontSize: 30,
+    fontSize: 25,
     color: COLOR_PALETTE.DEEP_BLUE['400'],
     fontWeight: '700',
   },

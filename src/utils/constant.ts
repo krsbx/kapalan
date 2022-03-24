@@ -21,6 +21,14 @@ const PLACEHOLDER = {
 };
 
 const HARBOUR = {
+  DEPART: {
+    id: 'DEPART',
+    name: 'Pilih Pelabuhan Awal',
+  },
+  ARRIVAL: {
+    id: 'ARRIVAL',
+    name: 'Pilih Pelabuhan Tujuan',
+  },
   PELABUHUAN_JAYA: {
     id: 'PELABUHUAN_JAYA',
     name: 'Pelabuhan Jaya',
@@ -44,6 +52,14 @@ const HARBOUR = {
 } as const;
 
 const SERVICES = {
+  SERVICES: {
+    id: 'SERVICES',
+    name: 'Pilih Layanan',
+    prices: {
+      CHILDREN: 20,
+      ADULT: 30,
+    },
+  },
   REGULER: {
     id: 'REGULER',
     name: 'Reguler',
@@ -68,9 +84,19 @@ const SERVICES = {
       ADULT: 80,
     },
   },
-};
+} as const;
 
 const CALC_TABLE = {
+  SERVICES: {
+    CHILDREN: {
+      multiplier: 1,
+      bookingFee: 0,
+    },
+    ADULT: {
+      multiplier: 1,
+      bookingFee: 0,
+    },
+  },
   REGULER: {
     CHILDREN: {
       multiplier: 1.5,
@@ -108,7 +134,12 @@ const PEOPLE = {
   CHILDREN: 'Anak-anak',
 };
 
+const GENDER = {
+  PRIA: 'Laki-Laki',
+  WANITA: 'Perempuan',
+} as const;
+
 // TODO: Fill this later
 const SCHEDULE = {};
 
-export { COLOR_PALETTE, HARBOUR, SERVICES, CALC_TABLE, SCHEDULE, PLACEHOLDER, PEOPLE };
+export { COLOR_PALETTE, HARBOUR, SERVICES, CALC_TABLE, SCHEDULE, PLACEHOLDER, PEOPLE, GENDER };
